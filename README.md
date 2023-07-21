@@ -7,6 +7,8 @@ The difference between pdf and nootebook is that the pdf has been organised as i
 
 The notebook **IoT_Heart_M_L__with_duplicated.ipynb** on the other hand is a utility notebook, and was used to extract values used in the main notebook.
 
+**heart.csv** is the file used for training the M.L. models.
+
 ## Prerequisites - M.L. Treaning
 Python3 and the following libraries are required to re-run the experiment locally:
 - numpy
