@@ -16,7 +16,7 @@ Python3 and the following libraries are required to re-run the experiment locall
 - sklearn
 
 # M.L. Backend
-The backend that enables the daily execution of the machine learning model is located in this folder.
+The backend that enables the daily execution of the machine learning model is located in "ml_backend" folder.
 
 # Prerequisites - M.L. Backend
 Python3 and the following libraries are required to re-run the experiment locally:
