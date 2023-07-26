@@ -17,14 +17,16 @@ heart_data.isnull().sum()
 heart_data.describe()
 heart_data['target'].value_counts()
 
-X = heart_data.drop(columns='target', axis=1)
+# Seleziona solo le features desiderate
+selected_features = ["sex", "age", "cp", "thalach"]
+X = heart_data[selected_features]
 Y = heart_data['target']
 
 # Splitting the Data into Training data & test data
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, stratify=Y, random_state=2)
 
 # Model Training, logistic Regression model
-model = LogisticRegression(C=0.01, max_iter=5000, random_state=0, solver='liblinear')
+model = LogisticRegression(C=100, max_iter=5000, random_state=0, solver='newton-cg')
 
 # Perform cross-validation
 kfold = KFold(n_splits=10)
@@ -47,7 +49,7 @@ test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
 print("Accuracy on Test data:", test_data_accuracy)
 
 # Build a predict system
-input_data = (41, 1, 0, 110, 172, 0, 0, 158, 0, 0.0, 2, 0, 3)
+input_data = (1, 41, 0, 158)
 input_data_as_numpy_array = np.asarray(input_data)
 input_data_reshaped = input_data_as_numpy_array.reshape(1, -1)
 prediction = model.predict(input_data_reshaped)
@@ -57,9 +59,11 @@ if prediction[0] == 0:
 else:
     print('The Person has Heart Disease')
 
+import joblib
 
-
-
+# Salva il modello nel file modello_logistic_regression.pkl
+with open('modello_logistic_regression.pkl', 'wb') as file:
+    joblib.dump(model, file)
 
 
 import pymongo
@@ -83,10 +87,7 @@ def calculate_target_pbs():
     # Iterate over each patient and calculate target and PBS
     for patient in patients:
         input_data = [
-            int(patient['age']), int(patient['sex']), int(patient['cp']), int(patient['trestbps']), int(patient['chol']),
-            int(patient['fbs']), int(patient['restecg']), int(patient['thalach']), int(patient['exang']),
-            (patient['oldpeak']), int(patient['slope']), int(patient['ca']), int(patient['thal'])
-        ]
+            int(patient['age']), int(patient['sex']), int(patient['cp']),int(patient['thalach'])]
 
         # Convert input data to a numpy array and reshape for prediction
         input_data_as_numpy_array = np.asarray(input_data, dtype=np.float64)
